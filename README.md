@@ -146,3 +146,20 @@ We're hiring developers, support people, and product managers all the time. Plea
 ## 🗒️ Credits
 
 - Emoji provided graciously by [JoyPixels](https://www.joypixels.com).
+
+## Установка
+
+<pre>
+git remote add upstream https://github.com/RocketChat/Rocket.Chat
+git pull upstream master
+</pre>
+
+https://developer.rocket.chat/v1/docs/linux
+
+### Сборка
+cd apps/meteor
+#meteor build --server-only --directory /var/tmp/rocketchat-build
+cp .docker/Dockerfile /var/tmp/rocketchat-build
+cp -r xlib /var/tmp/rocketchat-build
+cd /var/tmp/rocketchat-build
+docker build -t akrasnov87/rocket.chat:develop .
