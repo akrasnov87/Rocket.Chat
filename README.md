@@ -163,3 +163,13 @@ cp .docker/Dockerfile /var/tmp/rocketchat-build
 cp -r xlib /var/tmp/rocketchat-build
 cd /var/tmp/rocketchat-build
 docker build -t akrasnov87/rocket.chat:develop .
+
+### Пример файла с переменными
+<pre>
+# .env
+ADMIN_USERNAME=admin
+ADMIN_NAME=Admin
+ADMIN_EMAIL=admin@mail.ru
+ADMIN_PASS=Gfhjkm-1
+Cloud_Url=http://localhost:9001
+</pre>
