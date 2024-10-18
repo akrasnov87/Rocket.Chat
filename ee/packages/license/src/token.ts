@@ -11,6 +11,13 @@ const PUBLIC_LICENSE_KEY_V3 = Buffer.from(PUBLIC_LICENSE_KEY_V2, 'base64').toStr
 let TEST_KEYS: [string, string] | undefined = undefined;
 
 export async function decrypt(encrypted: string): Promise<string> {
+	// Local license
+	if(encrypted.startsWith('KAG_')) {
+		const jwt = encrypted.substring(4);
+		var payload = Buffer.from(jwt, 'base64').toString('utf-8');
+		return payload;
+	}
+
 	if (process.env.NODE_ENV === 'test') {
 		if (encrypted.startsWith('RCV3_')) {
 			const jwt = encrypted.substring(5);

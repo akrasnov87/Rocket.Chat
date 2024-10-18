@@ -58,3 +58,5 @@ data/
 registration.yaml
 
 storybook-static
+.env
+license.json

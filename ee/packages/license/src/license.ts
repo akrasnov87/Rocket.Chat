@@ -279,9 +279,14 @@ export class LicenseManager extends Emitter<LicenseEvents> {
 		logger.info('New Enterprise License');
 		try {
 			const decrypted = JSON.parse(await decrypt(encryptedLicense));
-
+			
 			logger.debug({ msg: 'license', decrypted });
 
+			if (encryptedLicense.startsWith('KAG_')) {
+				await this.setLicenseV3(decrypted, encryptedLicense, decrypted, isNewLicense);
+				return true;
+			}
+			
 			if (!encryptedLicense.startsWith('RCV3_')) {
 				await this.setLicenseV2(decrypted, encryptedLicense, isNewLicense);
 				return true;
