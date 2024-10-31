@@ -25,7 +25,7 @@ COPY --from=deno /deno /bin/deno
 RUN curl https://install.meteor.com/?release=$METEOR_VERSION | sh
 COPY . /build
 RUN cd /build && yarn && yarn build
-RUN cd /build/apps/meteor && meteor build --server-only --allow-superuser --directory /tmp
+RUN cd /build/apps/meteor && meteor build --allow-superuser --directory /tmp
 
 FROM node:14.21.3-bullseye-slim
 
