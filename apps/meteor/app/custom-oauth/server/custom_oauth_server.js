@@ -193,7 +193,9 @@ export class CustomOAuth {
 		const self = this;
 		OAuth.registerService(this.name, 2, null, async (query) => {
 			const response = await self.getAccessToken(query);
+			// тут приходит информация об авторизации
 			const identity = await self.getIdentity(response.access_token, query);
+			console.log(`Response OAuth: ${JSON.stringify(identity)}`);
 
 			const serviceData = {
 				_OAuthCustom: true,

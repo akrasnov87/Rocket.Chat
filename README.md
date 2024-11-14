@@ -173,3 +173,11 @@ ADMIN_EMAIL=admin@mail.ru
 ADMIN_PASS=Gfhjkm-1
 Cloud_Url=http://localhost:9001
 </pre>
+
+## Интеграция с node-oidc-provider
+
+В настройках CustomOAuth требуется в `виде логина` указать `Redirect` если выбрано иное значение, то после закрытия `Popup` иногда не прооисходит редирект на страницу.
+
+Чтобы логин отображался по умолчанию, требуется в поле `Поле Имени` указать sub
+
+__Примечание__: информацию о полях можно узнать в `apps/meteor/app/cutom-oauth/server/custom_oauth_server.js`

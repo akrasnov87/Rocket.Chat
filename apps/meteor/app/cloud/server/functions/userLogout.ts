@@ -7,7 +7,6 @@ import { retrieveRegistrationStatus } from './retrieveRegistrationStatus';
 import { userLoggedOut } from './userLoggedOut';
 
 export async function userLogout(userId: string): Promise<string | boolean> {
-	debugger;
 	const { workspaceRegistered } = await retrieveRegistrationStatus();
 
 	if (!workspaceRegistered) {
