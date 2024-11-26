@@ -60,3 +60,4 @@ registration.yaml
 storybook-static
 .env
 license.json
+development/tempo-data/

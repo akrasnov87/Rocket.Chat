@@ -75,9 +75,20 @@ runs:
         install: true
         NPM_TOKEN: ${{ inputs.NPM_TOKEN }}
 
+    - name: Restore turbo build
+      uses: actions/download-artifact@v4
+      with:
+        name: turbo-build
+        path: .turbo/cache
+
     - run: yarn build
       if: inputs.setup == 'true'
       shell: bash
+    - if: ${{ inputs.platform == 'official' }}
+      uses: actions/cache@v3
+      with:
+        path: /tmp/build/matrix-sdk-crypto.linux-x64-musl.node
+        key: matrix-rust-sdk-crypto-nodejs-v0.2.0-beta.1
 
     - name: Build Docker images
       shell: bash
