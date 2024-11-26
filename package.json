@@ -21,6 +21,7 @@
 		"@changesets/cli": "^2.26.2",
 		"@types/chart.js": "^2.9.41",
 		"@types/js-yaml": "^4.0.9",
+		"@types/node": "20",
 		"ts-node": "^10.9.2",
 		"turbo": "^2.1.3"
 	},

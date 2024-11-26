@@ -1,21 +1,30 @@
+# создан на основе apps/meteor/.docker/Dockerfile.debian
+
 ARG DENO_VERSION="1.37.1"
 FROM denoland/deno:bin-${DENO_VERSION} AS deno
 
 FROM debian:11-slim AS build
 
 ARG DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
-ARG METEOR_VERSION=2.16
+ARG METEOR_VERSION=3.0.4
 
 LABEL author="Aleksandr Krasnov"
 LABEL desc="Rocket.Chat"
 
 RUN apt update && \
     apt upgrade -y && \
-    apt install g++ build-essential git curl python3 curl unzip -y
+    apt install g++ build-essential git python3 curl unzip -y
 
-COPY scripts/setup_14.x.sh /setup_14.x.sh
-RUN sed -i 's/\r//g' /setup_14.x.sh && \
-    /bin/bash /setup_14.x.sh
+# nvm env vars
+RUN mkdir -p /usr/local/nvm
+ENV NVM_DIR /usr/local/nvm
+# IMPORTANT: set the exact version
+ENV NODE_VERSION v20.17.0
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
+# add node and npm to the PATH
+ENV NODE_PATH $NVM_DIR/versions/node/$NODE_VERSION/bin
+ENV PATH $NODE_PATH:$PATH
 
 RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | gpg --dearmor -o /usr/share/keyrings/yarn-archive-keyring.gpg
 RUN echo "deb [signed-by=/usr/share/keyrings/yarn-archive-keyring.gpg] https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
@@ -24,10 +33,10 @@ RUN apt update && apt install yarn -y
 COPY --from=deno /deno /bin/deno
 RUN curl https://install.meteor.com/?release=$METEOR_VERSION | sh
 COPY . /build
-RUN cd /build && yarn && yarn build
+RUN cd /build && yarn add -D @types/node@20 && yarn && yarn build
 RUN cd /build/apps/meteor && meteor build --allow-superuser --directory /tmp
 
-FROM node:14.21.3-bullseye-slim
+FROM node:20.17.0-bullseye-slim
 
 LABEL maintainer="vonsark87@yandex.ru"
 
@@ -54,23 +63,29 @@ ENV DEPLOY_METHOD=docker \
     ROOT_URL=http://localhost:3000 \
     Accounts_AvatarStorePath=/app/uploads
 
-RUN aptMark="$(apt-mark showmanual)" \
+    RUN aptMark="$(apt-mark showmanual)" \
     && apt-get install -y --no-install-recommends g++ make python3 ca-certificates \
-    && cd /app/bundle/programs/server \
+    && apt-mark auto '.*' > /dev/null \
+    && apt-mark manual $aptMark > /dev/null
+
+USER rocketchat
+
+RUN cd /app/bundle/programs/server \
     && npm install \
     && cd npm/node_modules/isolated-vm \
     && npm install \
-    && apt-mark auto '.*' > /dev/null \
-    && apt-mark manual $aptMark > /dev/null \
-    && find /usr/local -type f -executable -exec ldd '{}' ';' \
+    && npm cache clear --force
+
+USER root
+
+RUN find /usr/local -type f -executable -exec ldd '{}' ';' \
     | awk '/=>/ { print $(NF-1) }' \
     | sort -u \
     | xargs -r dpkg-query --search \
     | cut -d: -f1 \
     | sort -u \
     | xargs -r apt-mark manual \
-    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false \
-    && npm cache clear --force
+    && apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false
 
 RUN chown -R rocketchat:rocketchat /app
 
