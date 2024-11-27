@@ -207,6 +207,13 @@ __Примечание__: если сервис `Cloud_Url` подключает
 
 __Примечание__: информацию о полях можно узнать в `apps/meteor/app/cutom-oauth/server/custom_oauth_server.js`
 
+## Тегирование
+
+<pre>
+git tag [версия]
+git push origin [версия]
+</pre>
+
 ## Приложение
 
 ### Исправлен bug от 27.11.2024
