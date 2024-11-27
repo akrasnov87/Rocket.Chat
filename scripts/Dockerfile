@@ -33,7 +33,13 @@ RUN apt update && apt install yarn -y
 COPY --from=deno /deno /bin/deno
 RUN curl https://install.meteor.com/?release=$METEOR_VERSION | sh
 COPY . /build
-RUN cd /build && yarn add -D @types/node@20 && yarn && yarn build
+
+# исправлен баг со сборкой в 7.0.0
+RUN cd /build/apps/meteor/node_modules/rocketchat-services
+RUN yarn add -D @types/node@20
+# исправлен баг со сборкой в 7.0.0
+
+RUN cd /build && yarn && yarn build
 RUN cd /build/apps/meteor && meteor build --allow-superuser --directory /tmp
 
 FROM node:20.17.0-bullseye-slim
@@ -52,7 +58,7 @@ COPY --from=deno /deno /bin/deno
 COPY --from=build /tmp/bundle /app/bundle
 
 # --chown requires Docker 17.12 and works only on Linux
-#ADD --chown=rocketchat:rocketchat . /app
+ADD --chown=rocketchat:rocketchat . /app
 
 # needs a mongoinstance - defaults to container linking with alias 'mongo'
 ENV DEPLOY_METHOD=docker \
@@ -63,12 +69,12 @@ ENV DEPLOY_METHOD=docker \
     ROOT_URL=http://localhost:3000 \
     Accounts_AvatarStorePath=/app/uploads
 
-    RUN aptMark="$(apt-mark showmanual)" \
+RUN aptMark="$(apt-mark showmanual)" \
     && apt-get install -y --no-install-recommends g++ make python3 ca-certificates \
     && apt-mark auto '.*' > /dev/null \
     && apt-mark manual $aptMark > /dev/null
 
-USER rocketchat
+# USER rocketchat
 
 RUN cd /app/bundle/programs/server \
     && npm install \
@@ -76,7 +82,7 @@ RUN cd /app/bundle/programs/server \
     && npm install \
     && npm cache clear --force
 
-USER root
+# USER root
 
 RUN find /usr/local -type f -executable -exec ldd '{}' ';' \
     | awk '/=>/ { print $(NF-1) }' \

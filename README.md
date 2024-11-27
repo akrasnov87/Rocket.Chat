@@ -164,6 +164,16 @@ cp -r xlib /var/tmp/rocketchat-build
 cd /var/tmp/rocketchat-build
 docker build -t akrasnov87/rocket.chat:develop .
 
+### Запуск
+
+<pre>
+sudo rm -r ./rocket-chat
+sudo mkdir -p ./rocket-chat
+sudo chmod -R 777 ./rocket-chat
+
+docker compose -f docker-compose-ee.yml --env-file ./.env up -d
+</pre>
+
 ### Пример файла с переменными
 <pre>
 # .env
@@ -173,6 +183,15 @@ ADMIN_EMAIL=admin@mail.ru
 ADMIN_PASS=Gfhjkm-1
 Cloud_Url=http://localhost:9001
 </pre>
+
+#### Исправлен баг
+При выполнении команды `yarn build:image` возникает ошибка:
+
+<pre>
+error TS2322: Type 'Buffer' is not assignable to type 'Uint8Array'.
+</pre>
+
+Чтобы исправить ошибку требуется перейти в каталог `apps/meteor/node_modules/rocketchat-services` и выполнить команду `yarn add -D @types/node@20`
 
 ## Интеграция с node-oidc-provider
 
