@@ -1,14 +1,6 @@
 version: "3.7"
 
 services:
-  proxy:
-    container_name: rc-proxy-${APP_ENV}
-    image: nginx:1.27.2-alpine
-    ports:
-      - "80:8080"
-    volumes:
-      - ./cloud/nginx/templates:/etc/nginx/templates
-
   mongodb:
     container_name: rc-mongodb-${APP_ENV}
     image: docker.io/bitnami/mongodb:${MONGODB_VERSION:-7.0}
@@ -46,7 +38,7 @@ services:
   rocket-chat:
     container_name: rc-${APP_ENV}
     restart: always
-    image: akrasnov87/rocket.chat:7.0.0
+    image: akrasnov87/rocket.chat:${ROCKET_CHAT_VERSION:-7.0.0}
     ports:
       - "3000:3000"
     environment:

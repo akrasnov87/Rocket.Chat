@@ -162,7 +162,7 @@ cd apps/meteor
 cp .docker/Dockerfile /var/tmp/rocketchat-build
 cp -r xlib /var/tmp/rocketchat-build
 cd /var/tmp/rocketchat-build
-docker build -t akrasnov87/rocket.chat:develop .
+docker build -t akrasnov87/rocket.chat:master .
 
 ### Запуск
 
@@ -170,6 +170,8 @@ docker build -t akrasnov87/rocket.chat:develop .
 sudo rm -r ./rocket-chat
 sudo mkdir -p ./rocket-chat
 sudo chmod -R 777 ./rocket-chat
+
+# если не выполнить команды выше, то будет ошибка с правами доступа
 
 docker compose -f docker-compose-ee.yml --env-file ./.env up -d
 </pre>
@@ -181,23 +183,27 @@ ADMIN_USERNAME=admin
 ADMIN_NAME=Admin
 ADMIN_EMAIL=admin@mail.ru
 ADMIN_PASS=Gfhjkm-1
-Cloud_Url=http://localhost:9001
+#Cloud_Url=http://localhost:9001
+
+# папка для хранения данных от mongodb
+MONGO_DATA_PATH=./rocket-chat
+MONGODB_VERSION=7.0.15
+ROCKET_CHAT_VERSION=7.1.0-develop
 </pre>
 
-#### Исправлен баг
-При выполнении команды `yarn build:image` возникает ошибка:
+* MONGO_DATA_PATH - каталог для хранения данных mongodb
+* MONGODB_VERSION - версия БД mongodb
+* ROCKET_CHAT_VERSION - версия Rocket.Chat
 
-<pre>
-error TS2322: Type 'Buffer' is not assignable to type 'Uint8Array'.
-</pre>
-
-Чтобы исправить ошибку требуется перейти в каталог `apps/meteor/node_modules/rocketchat-services` и выполнить команду `yarn add -D @types/node@20`
+__Примечание__: если сервис `Cloud_Url` подключается отдельно, то указываем этот адрес (для запуска через `docker compose -f docker-compose-ee.yml --env-file ./.env up` его можно не указывать)
 
 ## Интеграция с node-oidc-provider
 
+Для подключение внешней авторизации требуется перейти в раздел `Настройки`. Создаём собственный `CustomOAuth`.
+
 В настройках CustomOAuth требуется в `виде логина` указать `Redirect` если выбрано иное значение, то после закрытия `Popup` иногда не прооисходит редирект на страницу.
 
-Чтобы логин отображался по умолчанию, требуется в поле `Поле Имени` указать sub
+Чтобы логин отображался по умолчанию, требуется в поле `Поле Имени` указать `sub`
 
 __Примечание__: информацию о полях можно узнать в `apps/meteor/app/cutom-oauth/server/custom_oauth_server.js`
 
@@ -207,3 +213,17 @@ __Примечание__: информацию о полях можно узна
 git tag [версия]
 git push origin [версия]
 </pre>
+
+## Приложение
+
+### Исправлен bug от 27.11.2024
+
+При выполнении команды `yarn build:image` возникает ошибка:
+
+<pre>
+error TS2322: Type 'Buffer' is not assignable to type 'Uint8Array'.
+</pre>
+
+Чтобы исправить ошибку требуется перейти в каталог `apps/meteor/node_modules/rocketchat-services` и выполнить команду `yarn add -D @types/node@20`
+
+__Примечание__: в Docketfile это исправлено на уровне инструкций. 
