@@ -58,7 +58,7 @@ COPY --from=deno /deno /bin/deno
 COPY --from=build /tmp/bundle /app/bundle
 
 # --chown requires Docker 17.12 and works only on Linux
-ADD --chown=rocketchat:rocketchat . /app
+# ADD --chown=rocketchat:rocketchat . /app
 
 # needs a mongoinstance - defaults to container linking with alias 'mongo'
 ENV DEPLOY_METHOD=docker \
