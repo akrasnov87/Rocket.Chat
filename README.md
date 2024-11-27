@@ -200,3 +200,10 @@ error TS2322: Type 'Buffer' is not assignable to type 'Uint8Array'.
 Чтобы логин отображался по умолчанию, требуется в поле `Поле Имени` указать sub
 
 __Примечание__: информацию о полях можно узнать в `apps/meteor/app/cutom-oauth/server/custom_oauth_server.js`
+
+## Тегирование
+
+<pre>
+git tag [версия]
+git push origin [версия]
+</pre>
