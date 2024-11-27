@@ -1,6 +1,6 @@
 {
 	"name": "rocket.chat",
-	"version": "7.0.0",
+	"version": "7.1.0-develop",
 	"description": "Rocket.Chat Monorepo",
 	"main": "index.js",
 	"private": true,
@@ -18,11 +18,11 @@
 		"fossify": "TS_NODE_COMPILER_OPTIONS='{\"module\": \"commonjs\"}' ts-node scripts/fossify.ts"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.26.2",
+		"@changesets/cli": "^2.27.9",
 		"@types/chart.js": "^2.9.41",
 		"@types/js-yaml": "^4.0.9",
 		"ts-node": "^10.9.2",
-		"turbo": "^2.1.3"
+		"turbo": "^2.2.3"
 	},
 	"workspaces": [
 		"apps/*",
@@ -42,11 +42,11 @@
 	},
 	"homepage": "https://github.com/RocketChat/Rocket.Chat#readme",
 	"engines": {
-		"yarn": "4.5.0",
-		"node": "20.17.0",
+		"yarn": "4.5.3",
+		"node": "20.18.0",
 		"npm": "Use yarn instead"
 	},
-	"packageManager": "yarn@4.5.0",
+	"packageManager": "yarn@4.5.3",
 	"houston": {
 		"minTag": "0.55.0-rc.0",
 		"updateFiles": [
@@ -55,7 +55,7 @@
 		]
 	},
 	"volta": {
-		"node": "20.17.0",
+		"node": "20.18.0",
 		"yarn": "1.22.18"
 	},
 	"resolutions": {
@@ -70,6 +70,7 @@
 	},
 	"dependencies": {
 		"@rocket.chat/ui-client": "workspace:^",
-		"node-gyp": "^9.4.1"
+		"@types/stream-buffers": "^3.0.7",
+		"node-gyp": "^10.2.0"
 	}
 }
