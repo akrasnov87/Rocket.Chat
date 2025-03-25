@@ -32688,12 +32688,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "rocket.chat@workspace:."
   dependencies:
-<<<<<<< HEAD
-    "@changesets/cli": "npm:^2.27.9"
-    "@rocket.chat/ui-client": "workspace:^"
-=======
     "@changesets/cli": "npm:^2.27.11"
->>>>>>> 5cc6b21eda1e31a7f1affb8e12edc6c944aa36ec
     "@types/chart.js": "npm:^2.9.41"
     "@types/js-yaml": "npm:^4.0.9"
     "@types/stream-buffers": "npm:^3.0.7"
@@ -32724,11 +32719,7 @@ __metadata:
     "@types/ejson": "npm:^2.2.2"
     "@types/express": "npm:^4.17.21"
     "@types/fibers": "npm:^3.1.4"
-<<<<<<< HEAD
-    "@types/node": "npm:20"
-=======
     "@types/node": "npm:~20.17.8"
->>>>>>> 5cc6b21eda1e31a7f1affb8e12edc6c944aa36ec
     "@types/ws": "npm:^8.5.13"
     ajv: "npm:^8.17.1"
     bcrypt: "npm:^5.1.1"

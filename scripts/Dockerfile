@@ -6,7 +6,7 @@ FROM denoland/deno:bin-${DENO_VERSION} AS deno
 FROM debian:11-slim AS build
 
 ARG DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC
-ARG METEOR_VERSION=3.0.4
+ARG METEOR_VERSION=3.1.2
 
 LABEL author="Aleksandr Krasnov"
 LABEL desc="Rocket.Chat"
@@ -19,7 +19,7 @@ RUN apt update && \
 RUN mkdir -p /usr/local/nvm
 ENV NVM_DIR /usr/local/nvm
 # IMPORTANT: set the exact version
-ENV NODE_VERSION v20.18.0
+ENV NODE_VERSION v22.13.1
 RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
 RUN /bin/bash -c "source $NVM_DIR/nvm.sh && nvm install $NODE_VERSION && nvm use --delete-prefix $NODE_VERSION"
 # add node and npm to the PATH
@@ -42,7 +42,7 @@ RUN yarn add -D @types/node@20
 RUN cd /build && yarn && yarn build
 RUN cd /build/apps/meteor && meteor build --allow-superuser --directory /tmp
 
-FROM node:20.18.0-bullseye-slim
+FROM node:22.13.1-bullseye-slim
 
 LABEL maintainer="vonsark87@yandex.ru"
 

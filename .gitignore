@@ -58,7 +58,7 @@ data/
 registration.yaml
 
 storybook-static
-.env
+.env*
 license.json
 development/tempo-data/
 ./rocket-chat

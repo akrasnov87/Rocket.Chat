@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [7.5.0-develop] 25.03.2025
+
+Upgrade:
+
+* обновление версии с 7.1.0 -> 7.5.0
+
 ## [7.1.0-develop] 27.11.2024
 
 Fixed:

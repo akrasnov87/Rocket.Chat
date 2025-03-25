@@ -20,7 +20,7 @@ services:
   # сервис для активации Rocket.Chat
   rocket-chat-cloud:
     container_name: rc-cloud-${APP_ENV}
-    image: akrasnov87/rocket.chat.cloud:1.0.2
+    image: akrasnov87/rocket.chat.cloud:1.0.3
     restart: always
     # ports:
     #   - "9001:9001"
@@ -38,7 +38,7 @@ services:
   rocket-chat:
     container_name: rc-${APP_ENV}
     restart: always
-    image: akrasnov87/rocket.chat:${ROCKET_CHAT_VERSION:-7.1.0-develop}
+    image: akrasnov87/rocket.chat:${ROCKET_CHAT_VERSION:-7.5.0-develop}
     ports:
       - "3000:3000"
     environment:
