@@ -185,6 +185,28 @@ git push origin [версия]
 
 ## Приложение
 
+## MongoDb и поддержка AVX инструкции процессора
+
+Если выдаётся сообщение:
+
+<pre>
+mongodb 08:47:21.61 INFO  ==> ** Starting MongoDB setup **
++ /opt/bitnami/scripts/mongodb/setup.sh
+mongodb 08:47:21.63 INFO  ==> Validating settings in MONGODB_* env vars...
+mongodb 08:47:21.67 INFO  ==> Initializing MongoDB...
+mongodb 08:47:21.71 INFO  ==> Deploying MongoDB from scratch...
+/opt/bitnami/scripts/libos.sh: line 346:    44 Illegal instruction     "$@" > /dev/null 2>&1
+I have no name!@3e201cfdfcad:/$ 
+</pre>
+
+Официальный ответ:
+
+`Versions 5.0 of mongodb and later require the AVX instruction set, which is not present on older cpus, and some lower end celerons (such as the ones I use for my lab cluster).`
+
+Для проверки `CPU` на поддержку инструкции `AVX` можно выполнить команду: `lscpu | grep avx`
+
+Если результат команды будет "пустым", то процессор не поддерживает `AVX`, а значит mongodb не будет запускаться.
+
 ### Исправлен bug от 27.11.2024
 
 При выполнении команды `yarn build:image` возникает ошибка:
